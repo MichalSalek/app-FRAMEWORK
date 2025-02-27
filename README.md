@@ -1,7 +1,7 @@
 Spis treści:
-[Instalacja](#instalacja)
-[Proces dodawania nowego feature - korzystanie z frameworka](#proces-dodawania-nowego-feature---korzystanie-z-frameworka)
-
+- [Instalacja](#instalacja)
+- [Proces dodawania nowego feature - korzystanie z frameworka](#proces-dodawania-nowego-feature---korzystanie-z-frameworka)
+- [Wybrane możliwości](#wybrane-możliwości)
 
 
 
@@ -74,4 +74,19 @@ Jest to `Single Source Of Thruth` aplikacji na temat modeli, endpointów, DTO, u
 - Puszczamy `yarn development db:migrate:dev` - backend
 - Przenosimy model z `schema.prisma` do `db_models.ts` - shared-kernel
 
-
+# Wybrane możliwości
+1. Obsługa rejestracji
+2. Obsługa logowania/wylogowania/sesji i jej odświeżania
+3. Obsługa wielu sesji na wielu urządzeniach z możliwością wylogowywania poszczególnych urządzeń
+4. Admin Panel do zarządzania aplikacją oraz użytkownikami
+5. Jako Master Admin - możliwość wcielenia się w innego użytkownika (Become User) bez ingerencji w jego sesję i widoczność działań admina.
+6. Obsługa zamrażania konta
+7. Obsługa usunięcia konta
+8. Obsługa procesu płatności
+9. Wylistowane ustalenia z polityk na żywo w celu testowania zachowania aplikacji
+10. Kody:
+    - `masteradmininit` - tworzenie konta testowego master admina
+    - `connectioncheck` - wyświetla monit do pingowania wszystkich aplikacji ze sobą
+    - `debugon` i `debugoff` - obsługa frontendowego trybu debugowania
+    - `backenddebug` - obsługa backendowego trybu debugowania
+    - `backenddbdebug` - obsługa debugowania zapytań z bazą danych
