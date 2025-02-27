@@ -42,7 +42,7 @@ web-2 - nie używane
 Jest to `Single Source Of Thruth` aplikacji na temat modeli, endpointów, DTO, uprawnień, typów i całej reszty konfiguracji.
 ### 
 ### 
-# Proces dodawania nowego feature
+# Proces dodawania nowego feature - korzystanie z frameworka
 ##### shared-kernel:
 1. W `models` uzupełniamy DTO
 2. Dodajemy event `cqrs.config.ts`
