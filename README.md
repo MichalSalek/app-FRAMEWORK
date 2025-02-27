@@ -1,3 +1,10 @@
+Spis treści:
+[Instalacja](#instalacja)
+[Proces dodawania nowego feature - korzystanie z frameworka](#proces-dodawania-nowego-feature---korzystanie-z-frameworka)
+
+
+
+
 # Instalacja
 
 ## Starting app
@@ -66,9 +73,5 @@ Jest to `Single Source Of Thruth` aplikacji na temat modeli, endpointów, DTO, u
 - Modelujemy funkcjonalność w bazie w `schema.prisma` - backend
 - Puszczamy `yarn development db:migrate:dev` - backend
 - Przenosimy model z `schema.prisma` do `db_models.ts` - shared-kernel
-
-
-
-
 
 
