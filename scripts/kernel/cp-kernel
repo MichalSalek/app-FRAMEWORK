@@ -1,0 +1,48 @@
+#! /bin/bash
+
+script_dir=$(dirname "$(realpath "$0")")
+
+cd "$script_dir"/../.. || (echo "FAIL" && exit 0)
+
+echo " "
+echo " "
+echo " "
+echo "* SHARED KERNEL JOB *"
+
+echo " "
+echo "CLEARING MAIN..."
+rm -rf ./main/src/READONLY-shared-kernel
+echo "COPYING TO MAIN..."
+mkdir ./main/src/READONLY-shared-kernel
+cp -f -r ./.shared-kernel/* ./main/src/READONLY-shared-kernel
+echo "ok."
+
+echo " "
+echo "CLEARING WEB-1..."
+rm -rf ./web-1/src/READONLY-shared-kernel
+echo "COPYING TO WEB-1..."
+mkdir ./web-1/src/READONLY-shared-kernel
+cp -f -r ./.shared-kernel/* ./web-1/src/READONLY-shared-kernel
+echo "ok."
+
+echo " "
+echo "CLEARING WEB-2..."
+rm -rf ./web-2/src/READONLY-shared-kernel
+echo "COPYING TO WEB-2..."
+mkdir ./web-2/src/READONLY-shared-kernel
+cp -f -r ./.shared-kernel/* ./web-2/src/READONLY-shared-kernel
+echo "ok."
+
+echo " "
+echo "CLEARING MOBILKA..."
+rm -rf ./mobilka/src/READONLY-shared-kernel
+echo "COPYING TO MOBILKA..."
+mkdir ./mobilka/src/READONLY-shared-kernel
+cp -f -r ./.shared-kernel/* ./mobilka/src/READONLY-shared-kernel
+echo "ok."
+
+echo " "
+echo 'The shared kernel has been distributed. CODE: OK.'
+echo " "
+echo " "
+echo " "

@@ -1,0 +1,147 @@
+networks:
+  main_connector_network:
+    driver: bridge
+
+services:
+
+  main-dev:
+    container_name: main-dev
+    networks:
+      - main_connector_network
+    tty: true
+    build:
+      context: ./main
+      dockerfile: docker.dev.Dockerfile
+      args:
+        - NEXT_TELEMETRY_DISABLED
+        - NEXT_PUBLIC_PORT_WEB_1
+        - NEXT_PUBLIC_PORT_WEB_2
+        - NEXT_PUBLIC_WEB_1_INTERNAL
+        - NEXT_PUBLIC_WEB_2_INTERNAL
+        - NEXT_PUBLIC_HTTP_PROTOCOL
+        - NEXT_PUBLIC_HTTP_WEB1_APP_HOST
+    environment:
+      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+      - NEXT_PUBLIC_PORT_WEB_1=${NEXT_PUBLIC_PORT_WEB_1}
+      - NEXT_PUBLIC_PORT_WEB_2=${NEXT_PUBLIC_PORT_WEB_2}
+      - NEXT_PUBLIC_WEB_1_INTERNAL=${NEXT_PUBLIC_WEB_1_INTERNAL}
+      - NEXT_PUBLIC_WEB_2_INTERNAL=${NEXT_PUBLIC_WEB_2_INTERNAL}
+      - NEXT_PUBLIC_HTTP_PROTOCOL=${NEXT_PUBLIC_HTTP_PROTOCOL}
+      - NEXT_PUBLIC_HTTP_WEB1_APP_HOST=${NEXT_PUBLIC_HTTP_WEB1_APP_HOST}
+    volumes:
+      - ./main/src:/app/src
+      - ./main/public:/app/public
+      - ./main/node_modules:/app/node_modules
+    restart: no
+    ports:
+      - ${PORT_MAIN}:${PORT_APP_INTERNAL}
+
+
+  web-1-dev:
+    container_name: web-1-dev
+    tty: true
+    networks:
+      - main_connector_network
+    build:
+      context: web-1
+      dockerfile: docker.dev.Dockerfile
+      args:
+        - NEXT_TELEMETRY_DISABLED
+        - DATABASE_URL
+        - DATABASE_URL_DIRECT
+        - JWT_SALT
+        - NEXT_PUBLIC_HTTP_PROTOCOL
+        - NEXT_PUBLIC_HTTP_WEB1_APP_HOST
+        - HTTP_MAIN_APP_HOST
+        - PORT_MAIN
+    environment:
+      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL_DIRECT=${DATABASE_URL_DIRECT}
+      - JWT_SALT=${JWT_SALT}
+      - NEXT_PUBLIC_HTTP_PROTOCOL=${NEXT_PUBLIC_HTTP_PROTOCOL}
+      - NEXT_PUBLIC_HTTP_WEB1_APP_HOST=${NEXT_PUBLIC_HTTP_WEB1_APP_HOST}
+      - HTTP_MAIN_APP_HOST=${HTTP_MAIN_APP_HOST}
+      - PORT_MAIN=${PORT_MAIN}
+    volumes:
+      - ./web-1/src:/app/src
+      - ./web-1/node_modules:/app/node_modules
+    restart: no
+    ports:
+      - ${NEXT_PUBLIC_PORT_WEB_1}:${PORT_APP_INTERNAL}
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+
+
+  #  web-2-dev:
+  #    container_name: web-2-dev
+  #    tty: true
+  #    networks:
+  #      - main_connector_network
+  #    build:
+  #      context: web-2
+  #      dockerfile: docker.dev.Dockerfile
+  #      args:
+  #        - NEXT_TELEMETRY_DISABLED
+  #        - DATABASE_URL
+  #        - DATABASE_URL_DIRECT
+  #        - JWT_SALT
+  #    environment:
+  #      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+  #      - DATABASE_URL=${DATABASE_URL}
+  #      - DATABASE_URL_DIRECT=${DATABASE_URL_DIRECT}
+  #      - JWT_SALT=${JWT_SALT}
+  #    volumes:
+  #      - ./web-2/src:/app/src
+  #      - ./web-2/node_modules:/app/node_modules
+  #    restart: no
+  #    ports:
+  #      - ${NEXT_PUBLIC_PORT_WEB_2}:${PORT_APP_INTERNAL}
+  #    depends_on:
+  #      db:
+  #        condition: service_healthy
+  #    links:
+  #      - db
+
+
+  db:
+    container_name: ${POSTGRES_DB}
+    tty: true
+    image: postgres:16
+    restart: always
+    shm_size: 128mb
+    env_file:
+      - ./.env.development
+    networks:
+      - main_connector_network
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - ${PORT_DB_EXTERNAL}:${PORT_DB_INTERNAL}
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+  adminer:
+    container_name: adminer
+    tty: true
+    networks:
+      - main_connector_network
+    image: adminer:4-standalone
+    restart: always
+    ports:
+      - ${PORT_ADMINER}:${PORT_ADMINER}
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+volumes:
+  db:
+    driver: local

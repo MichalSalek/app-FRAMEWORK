@@ -1,0 +1,18 @@
+{
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "d:prune": "docker system prune -f",
+    "d:prune:all": "docker image prune -a -f && yarn d:prune",
+    "setup:prod": "yarn pull && ./scripts/setup/chmod",
+    "containers-build-and-up:prod": "./scripts/containers/build-and-up-prod",
+    "install:prod": "yarn setup:prod && yarn containers-build-and-up:prod && yarn d:prune",
+    "setup:dev": "yarn pull && ./scripts/setup/chmod && ./scripts/setup/install-dev",
+    "containers-build-and-up:dev": "./scripts/containers/build-and-up-dev",
+    "install:dev": "yarn setup:dev && yarn containers-build-and-up:dev && yarn d:prune",
+    "kernel": "scripts/kernel/cp-kernel",
+    "pull": "scripts/git/pull",
+    "push": "scripts/git/push"
+  },
+  "packageManager": "yarn@1.22.22"
+}

@@ -1,0 +1,23 @@
+#! /bin/bash
+
+start=$(date +%s.%N)
+
+script_dir=$(dirname "$(dirname "$(realpath "$0")")")
+
+cd "$script_dir" || (echo BUILD_FAILED && exit)
+
+echo "Scripts directory:"
+pwd
+
+cd "$script_dir"/.. || (echo BUILD_FAILED && exit)
+
+echo "Build directory:"
+pwd
+
+docker-compose --env-file "./.env.production" -f "./docker-compose.prod.yml" build --no-cache && docker-compose --env-file "./.env.production" -f "./docker-compose.prod.yml" up -d
+
+echo "Build PROD OK"
+
+end=$(date +%s.%N)
+runtime=$(echo "$end - $start" | bc)
+echo "BUILD-AND-UP-PROD Elapsed time: ${runtime} seconds"

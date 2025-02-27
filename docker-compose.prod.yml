@@ -1,0 +1,66 @@
+networks:
+  main_connector_network:
+    driver: bridge
+
+services:
+
+  main-prod:
+    networks:
+      - main_connector_network
+    container_name: main-prod
+    tty: true
+    build:
+      context: ./main
+      dockerfile: docker.prod.Dockerfile
+      args:
+        - NEXT_TELEMETRY_DISABLED
+        - NEXT_PUBLIC_PORT_WEB_1
+        - NEXT_PUBLIC_PORT_WEB_2
+        - NEXT_PUBLIC_WEB_1_INTERNAL
+        - NEXT_PUBLIC_WEB_2_INTERNAL
+        - NEXT_PUBLIC_HTTP_PROTOCOL
+        - NEXT_PUBLIC_HTTP_WEB1_APP_HOST
+    restart: always
+    ports:
+      - ${PORT_MAIN}:${PORT_APP_INTERNAL}
+
+
+
+  web-1-prod:
+    networks:
+      - main_connector_network
+    container_name: web-1-prod
+    tty: true
+    build:
+      context: web-1
+      dockerfile: docker.prod.Dockerfile
+      args:
+        - NEXT_TELEMETRY_DISABLED
+        - DATABASE_URL
+        - DATABASE_URL_DIRECT
+        - JWT_SALT
+        - NEXT_PUBLIC_HTTP_PROTOCOL
+        - NEXT_PUBLIC_HTTP_WEB1_APP_HOST
+        - HTTP_MAIN_APP_HOST
+        - PORT_MAIN
+    restart: always
+    ports:
+      - ${NEXT_PUBLIC_PORT_WEB_1}:${PORT_APP_INTERNAL}
+
+
+
+#  web-2-prod:
+#    networks:
+#      - main_connector_network
+#    container_name: web-2-prod
+#    tty: true
+#    build:
+#      context: web-2
+#      dockerfile: docker.prod.Dockerfile
+#      args:
+#        - NEXT_TELEMETRY_DISABLED
+#    environment:
+#      - NEXT_TELEMETRY_DISABLED=${NEXT_TELEMETRY_DISABLED}
+#    restart: always
+#    ports:
+#      - ${NEXT_PUBLIC_PORT_WEB_2}:${PORT_APP_INTERNAL}

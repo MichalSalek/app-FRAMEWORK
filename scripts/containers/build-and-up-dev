@@ -1,0 +1,31 @@
+#! /bin/bash
+
+start=$(date +%s.%N)
+
+yarn setup:dev
+
+script_dir=$(dirname "$(realpath "$0")")
+
+cd "$script_dir"/../.. || (echo BUILD_FAILED && exit)
+
+echo "Build directory:"
+pwd
+
+docker-compose --env-file "./.env.development" -f "./docker-compose.dev.yml" rm -f
+
+docker-compose --env-file "./.env.development" -f "./docker-compose.dev.yml" pull
+
+docker-compose --env-file "./.env.development" -f "./docker-compose.dev.yml" up db -d --build
+
+docker-compose --env-file "./.env.development" -f "./docker-compose.dev.yml" up adminer -d --build
+
+docker-compose --env-file "./.env.development" -f "./docker-compose.dev.yml" up -d --build
+
+echo 'Build DEV OK'
+
+
+echo "Build PROD OK"
+
+end=$(date +%s.%N)
+runtime=$(echo "$end - $start" | bc)
+echo "BUILD-AND-UP-DEV Elapsed time: ${runtime} seconds"
