@@ -61,4 +61,14 @@ Jest to `Single Source Of Thruth` aplikacji na temat modeli, endpointów, DTO, u
 2. Zmieniamy wszystkie eventy ze skopiowanej funkcji na nowy, przykładowo SET_MAIN_NOTE -> SAVE_NOTE
 3. Używamy wystawionego przed chwilą endpoint-handlera w widoku, odpowiednio go obsługując już w React.
 4. TypeScript wymusza wszystkie poprawne parametry, ewentualny payload oraz response z serwera po akcji.
-   
+
+##### (Opcjonalnie):  
+- Modelujemy funkcjonalność w bazie w `schema.prisma` - backend
+- Puszczamy `yarn development db:migrate:dev` - backend
+- Przenosimy model z `schema.prisma` do `db_models.ts` - shared-kernel
+
+
+
+
+
+
