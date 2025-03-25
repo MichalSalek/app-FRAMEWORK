@@ -3,7 +3,7 @@ Spis treści:
 - [Proces dodawania nowego feature - korzystanie z frameworka](#proces-dodawania-nowego-feature---korzystanie-z-frameworka)
 - [Wybrane możliwości](#wybrane-możliwości)
 
-
+test
 
 # Instalacja
 
