@@ -28,7 +28,6 @@ for dir in "$parent_dir"/*; do
     cd "$dir" || continue
 
     # Execute the command
-    yarn lint
     echo "Executing 'git add . && git commit -m update && git push' in $(pwd)"
     git add . && git commit -m "update" && git push
 
