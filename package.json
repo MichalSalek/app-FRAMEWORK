@@ -12,7 +12,8 @@
     "install:dev": "yarn setup:dev && yarn containers-build-and-up:dev && yarn d:prune",
     "kernel": "scripts/kernel/cp-kernel",
     "pull": "scripts/git/pull",
-    "push": "scripts/git/push"
+    "push": "scripts/git/push",
+    "push:b": "scripts/build/build && scripts/git/push"
   },
   "packageManager": "yarn@1.22.22"
 }
