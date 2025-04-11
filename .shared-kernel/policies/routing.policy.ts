@@ -93,7 +93,6 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
               }
 
               router.replace(route + searchParamsString).then(() => {
-                console.log("CALLBACK")
                 typeof callbackAfterRedirection === 'function' && callbackAfterRedirection()
               })
             })()
