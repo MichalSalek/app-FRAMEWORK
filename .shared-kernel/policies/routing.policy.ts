@@ -67,40 +67,40 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     },
     REDIRECT_BY_NEXT_ROUTER: (route, router, searchParams) => {
       const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)
-      const redirectAction = (
-        (callbackAfterRedirection) => {
-          return willBeRedirect
-            ? (
-              () => {
-                let searchParamsString = location?.search ?? ''
-                if (typeof searchParams === 'object' && !!searchParams) {
-                  searchParamsString +=
-                    searchParamsString
-                      ? '&'
-                      : '?'
-                  Object.keys(searchParams)
-                    .forEach((key) => {
-                      const value = searchParams[key]
-                      searchParamsString += `${key}=${value}&`
-                    })
-                  if (searchParamsString[searchParamsString.length - 1] === '&') {
-                    searchParamsString = searchParamsString.slice(
-                      0,
-                      -1) // Remove & char on the end.
-                  }
+      const redirectAction = (callbackAfterRedirection?: () => void) => {
+        return willBeRedirect
+          ? (
+            () => {
+              let searchParamsString = location?.search ?? ''
+              if (typeof searchParams === 'object' && !!searchParams) {
+                searchParamsString +=
+                  searchParamsString
+                    ? '&'
+                    : '?'
+                Object.keys(searchParams)
+                  .forEach((key) => {
+                    const value = searchParams[key]
+                    searchParamsString += `${key}=${value}&`
+                  })
+                if (searchParamsString[searchParamsString.length - 1] === '&') {
+                  searchParamsString = searchParamsString.slice(
+                    0,
+                    -1) // Remove & char on the end.
                 }
-                if (searchParams === null) {
-                  searchParamsString = ''
-                }
+              }
+              if (searchParams === null) {
+                searchParamsString = ''
+              }
 
-                router.replace(route + searchParamsString).then(() => {
-                  typeof callbackAfterRedirection === 'function' && callbackAfterRedirection()
-                })
-              })()
-            : (callbackAfterRedirection) => {
-              typeof callbackAfterRedirection === 'function' && callbackAfterRedirection()
-            }
-        })
+              router.replace(route + searchParamsString).then(() => {
+                console.log("CALLBACK")
+                typeof callbackAfterRedirection === 'function' && callbackAfterRedirection()
+              })
+            })()
+          : (callbackAfterRedirection?: () => void) => {
+            typeof callbackAfterRedirection === 'function' && callbackAfterRedirection()
+          }
+      }
       return {
         willBeRedirect,
         redirectAction
