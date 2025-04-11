@@ -26,22 +26,6 @@ cp -f -r ./.shared-kernel/* ./web-1/src/READONLY-shared-kernel
 echo "ok."
 
 echo " "
-echo "CLEARING WEB-2..."
-rm -rf ./web-2/src/READONLY-shared-kernel
-echo "COPYING TO WEB-2..."
-mkdir ./web-2/src/READONLY-shared-kernel
-cp -f -r ./.shared-kernel/* ./web-2/src/READONLY-shared-kernel
-echo "ok."
-
-echo " "
-echo "CLEARING MOBILKA..."
-rm -rf ./mobilka/src/READONLY-shared-kernel
-echo "COPYING TO MOBILKA..."
-mkdir ./mobilka/src/READONLY-shared-kernel
-cp -f -r ./.shared-kernel/* ./mobilka/src/READONLY-shared-kernel
-echo "ok."
-
-echo " "
 echo 'The shared kernel has been distributed. CODE: OK.'
 echo " "
 echo " "

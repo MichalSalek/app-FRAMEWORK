@@ -7,13 +7,14 @@
     "setup:prod": "yarn pull && ./scripts/setup/chmod-scripts",
     "containers-build-and-up:prod": "./scripts/containers/build-and-up-prod",
     "install:prod": "yarn setup:prod && yarn containers-build-and-up:prod && yarn d:prune",
-    "setup:dev": "yarn pull && ./scripts/setup/chmod-scripts && ./scripts/setup/chmod-nodemodules && ./scripts/setup/install-dev",
+    "setup:dev": "yarn pull && ./scripts/setup/chmod-scripts && ./scripts/setup/chmod-nodemodules",
     "containers-build-and-up:dev": "./scripts/containers/build-and-up-dev",
-    "install:dev": "yarn setup:dev && yarn containers-build-and-up:dev && yarn d:prune",
+    "install:dev": "yarn setup:dev && ./scripts/setup/install-dev && yarn containers-build-and-up:dev && yarn d:prune",
     "kernel": "scripts/kernel/cp-kernel",
     "pull": "scripts/git/pull",
     "push": "scripts/git/push",
-    "push:b": "scripts/build/build && scripts/git/push"
+    "build:prod": "scripts/build/build",
+    "push:b": "yarn build:prod && scripts/git/push"
   },
   "packageManager": "yarn@1.22.22"
 }
