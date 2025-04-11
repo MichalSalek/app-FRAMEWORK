@@ -8,16 +8,9 @@ cd "$script_dir" || (echo "FAILED" && exit)
 
 echo "You are in:"
 pwd
-
-find . -type f -exec chmod -v +x {} \;
-
-cd ".." || (echo "FAILED" && exit)
-
-echo "You are in:"
-pwd
 echo ""
 echo ""
-echo "CHMOD in progres, waiting..."
+echo "CHMOD NODE_MODULES in progres, waiting..."
 echo ""
 if command -v sudo &>/dev/null; then
   echo "USING SUDO"
@@ -27,8 +20,9 @@ else
   find . -type d -name "node_modules" -exec chmod -R 777 {} \;
 fi
 
+cd ".." || (echo "FAILED" && exit)
 
-echo 'CHMOD OK'
+echo 'CHMOD NODE_MODULES OK'
 
 end=$(date +%s.%N)
 runtime=$(echo "$end - $start" | bc)
