@@ -4,7 +4,7 @@ start=$(date +%s.%N)
 
 # Define the command to execute
 command="yarn build"
-
+command2="rm -rfv ./.next/cache"
 script_dir=$(dirname "$(realpath "$0")")
 
 # Go up two levels
@@ -29,6 +29,8 @@ for dir in "$parent_dir"/*; do
     echo "Executing '$command' in $(pwd)"
     $command
 
+    echo "Executing '$command2' in $(pwd)"
+    $command2
     # Return to the original directory
     cd ..
   fi
