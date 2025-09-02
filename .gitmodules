@@ -1,0 +1,15 @@
+[submodule "main"]
+	path = main
+	url = git@github.com:MichalSalek/main.git
+	update = merge
+	branch = master
+[submodule "web-1"]
+	path = web-1
+	url = git@github.com:MichalSalek/web-1.git
+	update = merge
+   	branch = master
+[submodule "mobilka"]
+	path = mobilka
+	url = git@github.com:MichalSalek/mobilka.git
+        update = merge
+        branch = master
