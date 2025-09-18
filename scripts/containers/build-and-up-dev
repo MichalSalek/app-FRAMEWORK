@@ -1,0 +1,16 @@
+#! /bin/bash
+
+script_dir=$(dirname "$(realpath "$0")")
+
+cd "$script_dir"/../.. || (echo BUILD_FAILED && exit)
+
+echo "Build directory:"
+pwd
+
+docker-compose -f "./docker-compose.dev.yml" rm -f
+
+docker-compose -f "./docker-compose.dev.yml" pull
+
+docker-compose -f "./docker-compose.dev.yml" up -d
+
+echo 'Build DEV OK'

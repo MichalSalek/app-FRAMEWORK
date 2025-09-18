@@ -1,0 +1,82 @@
+#! /bin/bash
+
+
+
+
+# Define the command to execute
+command="npm run production build"
+command2="rm -rfv ./.next/cache"
+script_dir=$(dirname "$(realpath "$0")")
+
+# Go up two levels
+parent_dir=$(dirname "$(dirname "$script_dir")")
+
+is_app_dir() {
+  local dir_name="$1"
+  [[
+    "$dir_name" == "main" ||
+    "$dir_name" == "web-1" ]]
+
+}
+
+
+
+## Loop through each directory - LINT
+for dir in "$parent_dir"/*; do
+  # Check if the directory is indeed a directory
+  if [ -d "$dir" ] && is_app_dir "$(basename "$dir")"; then
+    # Enter the directory
+    cd "$dir" || continue
+
+    echo " "
+    echo " "
+    echo " "
+    echo " "
+    echo "LINTING $dir"
+    echo " "
+    echo " "
+
+    npm run lint
+
+    # Return to the original directory
+    cd ..
+  fi
+done
+
+
+read -p "Sprawdź oraz popraw błędy. [Naciśnij Enter, aby kontynuować...]"
+
+
+
+## Loop through each directory - BUILD
+for dir in "$parent_dir"/*; do
+  # Check if the directory is indeed a directory
+  if [ -d "$dir" ] && is_app_dir "$(basename "$dir")"; then
+    # Enter the directory
+    cd "$dir" || continue
+
+    echo " "
+    echo " "
+    echo " "
+    echo " "
+    # Execute the command
+    echo "Executing '$command' in $(pwd)"
+    $command
+    echo " "
+    read -p "Upewnij się, że build przeszedł. [Naciśnij Enter, aby kontynuować...]"
+    echo " "
+
+    echo " "
+    echo " "
+    echo "Executing '$command2' in $(pwd)"
+    $command2
+    echo " "
+    echo " "
+
+    # Return to the original directory
+    cd ..
+  fi
+done
+
+echo 'Build OK.'
+

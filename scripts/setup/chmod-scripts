@@ -1,0 +1,18 @@
+#! /bin/bash
+
+script_dir=$(dirname "$(dirname "$(realpath "$0")")")
+
+cd "$script_dir" || (echo "FAILED" && exit)
+
+echo "You are in:"
+pwd
+echo ""
+echo ""
+echo "CHMOD SCRIPTS in progres, waiting..."
+echo ""
+find . -type f -exec chmod -v +x {} \;
+
+cd ".." || (echo "FAILED" && exit)
+
+echo 'CHMOD SCRIPTS OK'
+

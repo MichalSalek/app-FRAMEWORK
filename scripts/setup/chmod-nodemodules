@@ -1,0 +1,19 @@
+#! /bin/bash
+
+script_dir=$(dirname "$(dirname "$(realpath "$0")")")
+
+cd "$script_dir" || (echo "FAILED" && exit)
+
+echo "You are in:"
+pwd
+echo ""
+echo ""
+echo "CHMOD NODE_MODULES in progres, waiting..."
+echo ""
+
+find . -type d -name "node_modules" -exec chmod -R 777 {} \;
+
+
+cd ".." || (echo "FAILED" && exit)
+
+echo 'CHMOD NODE_MODULES OK'

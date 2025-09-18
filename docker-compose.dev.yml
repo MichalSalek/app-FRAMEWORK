@@ -1,0 +1,84 @@
+networks:
+  main_connector_network:
+    driver: bridge
+
+services:
+  main-dev:
+    container_name: main-dev
+    networks:
+      - main_connector_network
+    tty: true
+    build:
+      context: ./main
+      dockerfile: docker.dev.Dockerfile
+    volumes:
+      - ./main/src:/app/src
+      - ./main/public:/app/public
+      - ./main/node_modules:/app/node_modules
+    restart: no
+    ports:
+      - "3000:3000"
+
+  web-1-dev:
+    container_name: web-1-dev
+    tty: true
+    networks:
+      - main_connector_network
+    build:
+      context: web-1
+      dockerfile: docker.dev.Dockerfile
+    volumes:
+      - ./web-1/src:/app/src
+      - ./web-1/node_modules:/app/node_modules
+    restart: no
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+    ports:
+      - "3001:3000"
+
+  db:
+    container_name: db
+    tty: true
+    image: postgres:16
+    restart: always
+    shm_size: 128mb
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=lolmenixKeksBeks114488
+      - POSTGRES_PASSWORD=lolzordozaSkolioza666
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    networks:
+      - main_connector_network
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U lolmenixKeksBeks114488 -d db'" ]
+      interval: 5s
+      timeout: 30s
+      retries: 15
+    ports:
+      - "3200:5432"
+
+  adminer:
+    container_name: adminer
+    tty: true
+    networks:
+      - main_connector_network
+    image: adminer:4-standalone
+    restart: always
+    environment:
+      - ADMINER_DEFAULT_SERVER=db
+      - ADMINER_DEFAULT_DB_HOST=db
+      - ADMINER_DEFAULT_DB_NAME=db
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+volumes:
+  db:
+    driver: local

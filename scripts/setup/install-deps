@@ -1,0 +1,39 @@
+#! /bin/bash
+
+
+# Define the command to execute
+command="npm i"
+
+script_dir=$(dirname "$(realpath "$0")")
+
+# Go up two levels
+parent_dir=$(dirname "$(dirname "$script_dir")")
+
+is_app_dir() {
+  local dir_name="$1"
+  [[
+    "$dir_name" == "main" ||
+    "$dir_name" == "web-1" ]]
+
+}
+#
+## Loop through each directory
+for dir in "$parent_dir"/*; do
+  # Check if the directory is indeed a directory
+  if [ -d "$dir" ] && is_app_dir "$(basename "$dir")"; then
+    # Enter the directory
+    cd "$dir" || continue
+
+    # Execute the command
+    echo "Executing '$command' in $(pwd)"
+    $command
+
+    # Return to the original directory
+    cd ..
+  fi
+done
+
+bash "$script_dir"/../kernel/cp-kernel
+
+echo 'Install OK, CP-KERNEL OK.'
+

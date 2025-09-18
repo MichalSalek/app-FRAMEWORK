@@ -1,0 +1,28 @@
+networks:
+  main_connector_network:
+    driver: bridge
+
+services:
+  main-prod:
+    networks:
+      - main_connector_network
+    container_name: main-prod
+    tty: true
+    build:
+      context: ./main
+      dockerfile: docker.prod.Dockerfile
+    restart: always
+    ports:
+      - "80:80"
+
+  web-1-prod:
+    networks:
+      - main_connector_network
+    container_name: web-1-prod
+    tty: true
+    build:
+      context: web-1
+      dockerfile: docker.prod.Dockerfile
+    restart: always
+    ports:
+      - "3101:3000"

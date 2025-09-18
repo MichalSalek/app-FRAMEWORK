@@ -1,0 +1,22 @@
+#! /bin/bash
+
+script_dir=$(dirname "$(dirname "$(realpath "$0")")")
+
+cd "$script_dir" || (echo BUILD_FAILED && exit)
+
+echo "Scripts directory:"
+pwd
+
+cd "$script_dir"/.. || (echo BUILD_FAILED && exit)
+
+echo "Build directory:"
+pwd
+
+docker-compose -f "./docker-compose.prod.yml" rm -f
+
+docker-compose -f "./docker-compose.prod.yml" pull
+
+docker-compose -f "./docker-compose.prod.yml" up -d --build --no-deps --force-recreate
+
+
+echo "Build PROD OK"
