@@ -12,10 +12,12 @@
     "containers-build-and-up:dev": "./scripts/containers/build-and-up-dev",
     "install:deps": "./scripts/setup/install-deps",
     "install:dev": "npm run setup:dev && npm run install:deps && npm run containers-build-and-up:dev && npm run d:prune",
-    "build:prod": "scripts/build/build",
+    "build:staging": "ENV=staging scripts/build/build",
+    "build:preview": "ENV=preview scripts/build/build",
+    "build:production": "ENV=production scripts/build/build",
     "kernel": "scripts/kernel/cp-kernel",
     "pull": "scripts/git/pull",
     "push:only": "scripts/git/push",
-    "push:build": "npm run build:prod && scripts/git/push"
+    "push:build-stg": "npm run build:staging && scripts/git/push"
   }
 }

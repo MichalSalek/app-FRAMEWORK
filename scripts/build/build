@@ -1,10 +1,13 @@
 #! /bin/bash
 
 
-
+echo " "
+echo ENV: "$ENV"
+echo " "
+echo " "
 
 # Define the command to execute
-command="npm run production build"
+command="npm run $ENV build"
 command2="rm -rfv ./.next/cache"
 script_dir=$(dirname "$(realpath "$0")")
 
@@ -18,8 +21,6 @@ is_app_dir() {
     "$dir_name" == "web-1" ]]
 
 }
-
-
 
 ## Loop through each directory - LINT
 for dir in "$parent_dir"/*; do
