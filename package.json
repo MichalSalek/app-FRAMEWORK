@@ -8,7 +8,7 @@
     "reset:hard": "git reset --hard origin/master",
     "containers-build-and-up:prod": "./scripts/containers/build-and-up-prod",
     "install:prod": "npm run reset:hard && npm run setup:prod && npm run containers-build-and-up:prod && npm run d:prune:all",
-    "setup:dev": "npm run pull && ./scripts/setup/chmod-scripts && ./scripts/setup/chmod-nodemodules",
+    "setup:dev": "./scripts/setup/chmod-scripts && ./scripts/setup/chmod-nodemodules",
     "containers-build-and-up:dev": "./scripts/containers/build-and-up-dev",
     "install:deps": "./scripts/setup/install-deps",
     "install:dev": "npm run setup:dev && npm run install:deps && npm run containers-build-and-up:dev && npm run d:prune",
