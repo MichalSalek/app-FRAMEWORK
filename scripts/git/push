@@ -27,8 +27,8 @@ for dir in "$parent_dir"/*; do
     cd "$dir" || continue
 
     # Execute the command
-    echo "Executing 'git add . && git commit -m update && git push' in $(pwd)"
-    git add . && git commit -m "update" && git push
+    echo "Executing 'git checkout master && git add . && git commit -m "update" && git push' in $(pwd)"
+    git checkout master && git add . && git commit -m "update" && git push
 
     # Return to the original directory
     cd ..
