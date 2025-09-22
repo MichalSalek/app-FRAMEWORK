@@ -14,7 +14,6 @@ is_app_dir() {
   local dir_name="$1"
   [[ 
     "$dir_name" == "main" ||
-    "$dir_name" == "mobilka" ||
     "$dir_name" == "web-1" ]]
 
 }
@@ -27,8 +26,9 @@ for dir in "$parent_dir"/*; do
     cd "$dir" || continue
 
     # Execute the command
-    echo "Executing 'git checkout master && git add . && git commit -m "update" && git push' in $(pwd)"
-    git checkout master && git add . && git commit -m "update" && git push
+    echo "Executing 'git checkout master && git add . && git commit -m 'update' && git push' in $(pwd)"
+    git checkout master && git add . && git commit -m "update"
+    git push
 
     # Return to the original directory
     cd ..
